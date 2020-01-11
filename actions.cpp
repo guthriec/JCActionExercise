@@ -1,7 +1,4 @@
 #include <string>
-#include <iostream>
-#include <thread>
-#include <chrono>
 #include "actions.h"
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
