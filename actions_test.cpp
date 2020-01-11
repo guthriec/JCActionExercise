@@ -14,14 +14,14 @@ protected:
  * leads to correct result from getStats()
  */
 TEST_F(TrackerTest, SingleActionTest) {
-  tracker.addAction("{\"action\":\"jump\",\"time\":100}");
+  tracker.addAction("{\"action\":\"jump\", \"time\":100}");
   std::string expected = "[{\"action\":\"jump\",\"avg\":100}]";
   ASSERT_STREQ(tracker.getStats().c_str(), expected.c_str());
 }
 
 /// test multiple actions with multiple times
 TEST_F(TrackerTest, MultipleActionTest) {
-  tracker.addAction("{\"action\":\"jump\",\"time\":100}");
+  tracker.addAction("{\n\"action\":\"jump\",  \"time\":100\n}");
   tracker.addAction("{\"action\":\"jump\",\"time\":50}");
   tracker.addAction("{\"action\":\"run\",\"time\":200}");
   std::string expected = "[{\"action\":\"jump\",\"avg\":75},{\"action\":\"run\",\"avg\":200}]";
