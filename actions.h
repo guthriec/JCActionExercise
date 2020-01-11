@@ -4,24 +4,29 @@
 #include <string>
 #include <optional>
 #include <map>
+#include <shared_mutex>
 
 namespace Actions {
   /// Enum for action input errors
   enum class JsonError {
     MalformedJson,
-    MissingKeys
+    NotAnObject,
+    MissingKeys,
+    IncorrectValueType
   };
 
   class Tracker {
   private:
-    std::map<std::string, std::pair<int, int>> actionStats;
+    /// map of action name -> (number of actions, total time taken on all actions)
+    std::map<std::string, std::pair<uint32_t, uint64_t>> allStats;
+    std::shared_mutex mapMutex;
   
   public:
     /** 
      * Ingests an action for statistical summary
      * @param actionJson JSON string with two keys "action" (string) and "time"
      *   (integer) representing the action taken and time taken
-     * @return empty optional on success, ActionError on failure specifying failure type
+     * @return empty optional on success, JsonError on failure
      */
     std::optional<JsonError> addAction(std::string actionJson);
 
