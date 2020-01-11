@@ -15,12 +15,12 @@ std::optional<Actions::JsonError> Actions::Tracker::addAction(std::string action
   if (!document.HasMember("action") || !document.HasMember("time")) {
     return Actions::JsonError::MissingKeys;
   }
-  if (!document["action"].IsString() || !document["time"].IsInt()) {
+  if (!document["action"].IsString() || !document["time"].IsUint()) {
     return Actions::JsonError::IncorrectValueType;
   }
   // extract action info
   std::string actionName = document["action"].GetString();
-  int actionTime = document["time"].GetInt();
+  uint32_t actionTime = document["time"].GetUint();
 
   // acquire write lock and update allStats object with new action info
   std::unique_lock lock(mapMutex);
@@ -61,7 +61,7 @@ std::string Actions::Tracker::getStats() {
     writer.String(it->first.c_str());
     writer.Key("avg");
     // integer division for average, is ok
-    writer.Int(it->second.second / it->second.first);
+    writer.Uint(it->second.second / it->second.first);
     writer.EndObject();
   }
   lock.release();
