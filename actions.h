@@ -25,7 +25,7 @@ namespace Actions {
     /** 
      * Ingests an action for statistical summary
      * @param actionJson JSON string with two keys "action" (string) and "time"
-     *   (integer) representing the action taken and time taken
+     *   (unsigned integer) representing the action taken and time taken.
      * @return empty optional on success, JsonError on failure
      */
     std::optional<JsonError> addAction(std::string actionJson);
@@ -33,8 +33,9 @@ namespace Actions {
     /**
      * Computes action statistics
      * @return JSON string, containing a list of objects with two keys:
-     *   "action" (string), and "avg" (integer) representing the action taken
-     *   and average time taken to complete the action
+     *   "action" (string), and "avg" (unsigned integer) representing
+     *   the action taken and average time taken to complete the action
+     *   (rounded down to the nearest integer)
      */
     std::string getStats();
   };
